@@ -1,4 +1,5 @@
 <div class="user-page">
     <h1 class="user-page-title">Gérer mes utilisateurs</h1>
+    <button (click)="onAddButtonClick()" mat-raised-button color="primary" class="add-btn">Ajouter un utilisateur</button>
     <app-user-list-table [users]="users"></app-user-list-table>
 </div>

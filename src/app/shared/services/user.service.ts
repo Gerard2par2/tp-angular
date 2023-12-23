@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { User, UserFilters } from '../models/user.model';
-import { getMockUserList } from '../../utils/mock.utils'; 
+import { BehaviorSubject, Observable, map } from 'rxjs';
+import { User, UserDto, UserFilters } from '../models/user.model';
+import { environment } from 'src/environment/environment';
+import { HttpClient } from '@angular/common/http';
+import { UserMappingService } from './user-mapping.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +14,52 @@ import { getMockUserList } from '../../utils/mock.utils';
 export class UserService {
 
   private readonly users: BehaviorSubject<User[]>;
+  private readonly apiURL;
 
-  constructor() {
-    this.users = new BehaviorSubject<User[]>(getMockUserList());
+  constructor(
+    private readonly http: HttpClient,
+    private readonly userMapper: UserMappingService) {
+    this.users = new BehaviorSubject<User[]>([]);
+    this.apiURL = environment.apiUrl;
+
+    this.fetchUsers().subscribe(users => {
+      this.users.next(users);
+    });
+  }
+
+  /**
+   * Fetches the list of users from the API
+   * @returns the list of users from the API
+   */
+  private fetchUsers(): Observable<User[]> {
+    return this.http.get<UserDto[]>(this.apiURL).pipe(map((userDto: UserDto[]) => this.userMapper.fromUserDtoListToUserList(userDto)));
+  }
+
+  /**
+   * Posts a user to the API
+   * @param user the user to post
+   * @returns the posted user
+   */
+  private postUser(user: User): Observable<User> {
+    return this.http.post<UserDto>(this.apiURL, this.userMapper.fromUserToUserDto(user)).pipe(map((userDto: UserDto) => this.userMapper.fromUserDtoToUser(userDto)));
+  }
+
+  /**
+   * Puts a user to the API
+   * @param user the user to put
+   * @returns the put user
+   */
+  private putUser(user: User): Observable<User> {
+    return this.http.put<UserDto>(`${this.apiURL}/${user.userId}`, this.userMapper.fromUserToUserDto(user)).pipe(map((userDto: UserDto) => this.userMapper.fromUserDtoToUser(userDto)));
+  }
+
+  /**
+   * Deletes a user from the API
+   * @param userId the id of the user to delete
+   * @returns the deleted user
+   */
+  private deleteUser(userId: string): Observable<User> {
+    return this.http.delete<UserDto>(`${this.apiURL}/${userId}`).pipe(map((userDto: UserDto) => this.userMapper.fromUserDtoToUser(userDto)));
   }
 
   /**
@@ -23,7 +68,6 @@ export class UserService {
   public getUsers(): BehaviorSubject<User[]> {
     return this.users;
   }
-
   
   /**
    * Returns a user from the list
@@ -44,8 +88,10 @@ export class UserService {
    */
   public addUser(user: User): void {
     const users = this.users.getValue();
-    users.push(user);
-    this.users.next(users);
+    this.postUser(user).subscribe(user => {
+      users.push(user);
+      this.users.next(users);
+    });
   }
 
   /**
@@ -54,7 +100,11 @@ export class UserService {
    */
   public removeUser(userId: string): void {
     const users = this.users.getValue();
-    this.users.next(users.filter(user => user.userId !== userId));
+    this.deleteUser(userId).subscribe(user => {
+      const userIndex = users.findIndex(u => u.userId === userId);
+      users.splice(userIndex, 1);
+      this.users.next(users);
+    });
   }
 
   /**
@@ -63,9 +113,12 @@ export class UserService {
    */
   public updateUser(user: User): void {
     const users = this.users.getValue();
-    const userIndex = users.findIndex(u => u.userId === user.userId);
-    users[userIndex] = user;
-    this.users.next(users);
+    const userId = user.userId;
+    this.putUser(user).subscribe(user => {
+      const userIndex = users.findIndex(u => u.userId === userId);
+      users[userIndex] = user;
+      this.users.next(this.users.getValue());
+    });
   }
 
   /**

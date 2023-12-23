@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { faHouseUser } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-user-details',
@@ -7,4 +9,13 @@ import { Component } from '@angular/core';
 })
 export class UserDetailsComponent {
 
+  public homeIcon = faHouseUser;
+
+  public constructor(
+    private readonly router: Router
+  ) { }
+
+  public navigateToHome(): void {
+    this.router.navigate(['users']);
+  }
 }

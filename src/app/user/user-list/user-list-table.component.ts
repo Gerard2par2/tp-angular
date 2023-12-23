@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -6,7 +6,6 @@ import { UserService } from 'src/app/shared/services/user.service';
 import { User, UserFilters } from 'src/app/shared/models/user.model';
 import { Router } from '@angular/router';
 import { MatSort } from '@angular/material/sort';
-import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-user-list-table',
@@ -35,22 +34,30 @@ export class UserListTableComponent implements AfterViewInit, OnDestroy {
   totalUsers = 0;
   pageSize = 10;
 
+
   constructor(
     private readonly userService: UserService,
-    private readonly router: Router) {}
+    private readonly router: Router,
+    private readonly changeDetectorRef: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.filterPredicate = this.userService.filterPredicate;
+    
     this.dataSource.sort = this.sort;
     this.dataSource.sortingDataAccessor = (item: User, property: string) => {
       switch (property) {
-        case 'birthDate': return item.birthDate.toMillis();
+        case 'birthDate': 
+          console.log('pipi caca aga aga');
+          return item.birthDate.toMillis();
         default: return item[property as keyof User] as string;
       }
     };
+
     this.users.pipe(takeUntil(this.destroyed$)).subscribe(users => {
       this.dataSource.data = users;
       this.totalUsers = users.length;
+      this.changeDetectorRef.detectChanges();
     });
   } 
 
@@ -61,7 +68,7 @@ export class UserListTableComponent implements AfterViewInit, OnDestroy {
   applyFilter(event: Event, filterName: keyof UserFilters): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.filterValues[filterName] = filterValue;
-    this.dataSource.filter = filterValue && JSON.stringify(this.filterValues);
+    this.dataSource.filter = JSON.stringify(this.filterValues);
   }
 
   onSelectedDisplayChange(event: string): void {

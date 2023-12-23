@@ -36,7 +36,7 @@
             <td mat-cell *matCellDef="let user"> {{user.bio}} </td>
         </div>
         
-        <div matColumnDef="birthDate" mat-sort-header="birthDate" class="birth-date-col">
+        <div matColumnDef="birthDate" class="birth-date-col">
             <th mat-header-cell *matHeaderCellDef mat-sort-header="birthDate"> Date de naissance</th>
             <td mat-cell *matCellDef="let user"> {{user.birthDate | formatDate}} </td>
         </div>

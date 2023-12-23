@@ -1,3 +1,7 @@
+<button class="home-btn" (click)="navigateToHome()">
+    <fa-icon [icon]="homeIcon"></fa-icon>
+</button>
+
 <h1>{{pageTitle}}</h1>
 
 <form [formGroup]="userFormGroup">
@@ -23,12 +27,12 @@
 
     <mat-form-field appearance="outline">
         <mat-label>Bio</mat-label>
-        <input matInput type="text" formControlName="bio">
+        <textarea matInput type="text" formControlName="bio"></textarea>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
         <mat-label>Date de naissance</mat-label>
         <input matInput type="date" formControlName="birthDate">
     </mat-form-field>
-    <button mat-button color="primary" type="submit" (click)="onSubmit()">{{buttonText}}</button>
+    <button mat-raised-button color="primary" type="submit" (click)="onSubmit()">{{buttonText}}</button>
 </form>

@@ -5,6 +5,7 @@ import { UserFormModes } from 'src/app/shared/enums/user-form-modes.enum';
 import { User } from 'src/app/shared/models/user.model';
 import { UserService } from 'src/app/shared/services/user.service';
 import { buildAddUserForm, buildEditUserForm, formatDateFromInput } from 'src/app/utils/form.utils';
+import { faHouseUser } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-user-form',
@@ -17,6 +18,7 @@ export class UserFormComponent {
   public pageTitle: string = '';
 
   public userFormGroup;
+  public homeIcon = faHouseUser;
 
   public constructor(
     private readonly activatedRoute: ActivatedRoute,
@@ -63,6 +65,10 @@ export class UserFormComponent {
       default:
           throw new Error('Invalid mode passed as data during routing to UserFormComponent');
     }
+    this.router.navigate(['users']);
+  }
+
+  public navigateToHome(): void {
     this.router.navigate(['users']);
   }
 }

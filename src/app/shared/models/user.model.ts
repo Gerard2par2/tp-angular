@@ -10,6 +10,16 @@ export interface User {
     birthDate: DateTime;
 }
 
+export interface UserDto {
+    userId: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    occupation: string;
+    bio: string;
+    birthDate: string;
+}
+
 export interface UserFilters {
     email: string;
     firstName: string;
