@@ -1,7 +1,7 @@
 <header class="header">
     <nav class="header-navigation">
-        <a href="/users">Home</a>
-        <a href="/add">Add</a>
+        <a (click)="linkClicked([''])">Home</a>
+        <a (click)="linkClicked(['add'])">Add</a>
     </nav>
     <h1 class="header-app-title">
         {{appContextService.appName | async}}
