@@ -1,0 +1,15 @@
+@import '/src/styles//variables.scss';
+
+.user-page {
+    display: flex;
+    flex-direction: column;
+    margin: 2rem;
+    max-height: 100dvh;
+    overflow: hidden;
+    .user-page-title {
+        padding: 0.2rem;
+        text-align: center;
+        font-style: italic;
+        background-color: $light-gray;
+    }
+}

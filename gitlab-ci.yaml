@@ -1,0 +1,14 @@
+image: node:lts
+
+before_script:
+  - npm ci
+  - npm install -g @angular/cli@latest
+
+pages:
+  script:
+    - ng build --aot --build-optimizer --common-chunk --vendor-chunk --optimization --progress --configuration=production --output-path=public
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH

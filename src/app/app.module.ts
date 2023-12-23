@@ -3,14 +3,43 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { UserListTableComponent } from './user/user-list/user-list-table.component';
+import { UsersPageComponent } from './user/users-page.component';
+import { UserDetailsComponent } from './user/user-details/user-details.component';
+import { FormatDatePipe } from './shared/pipes/format-date.pipe';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatInputModule } from '@angular/material/input';
+import { UserListFilterLabelPipe } from './shared/pipes/user-list-filter-label.pipe';
+import { UserFormComponent } from './user/user-form/user-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatSortModule } from '@angular/material/sort';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    UserListTableComponent,
+    UsersPageComponent,
+    UserListTableComponent,
+    UserDetailsComponent,
+    FormatDatePipe,
+    UserListFilterLabelPipe,
+    UserFormComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatTableModule,
+    MatPaginatorModule,
+    BrowserAnimationsModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatSortModule,
+    MatButtonModule,
+    MatFormFieldModule
   ],
   providers: [],
   bootstrap: [AppComponent]
