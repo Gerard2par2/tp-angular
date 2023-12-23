@@ -25,6 +25,6 @@ export const buildAddUserForm = (): FormGroup => {
         email: '',
         occupation: '',
         bio: '',
-        birthDate: DateTime.now().minus({years: 18}),
+        birthDate: DateTime.now(),
     })
 }

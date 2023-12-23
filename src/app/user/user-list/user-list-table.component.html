@@ -44,9 +44,9 @@
         <ng-container matColumnDef="actions" class="birth-date-col">
             <th mat-header-cell *matHeaderCellDef> Actions</th>
             <td mat-cell *matCellDef="let user" class="actions-cell"> 
-                <button (click)="detailsButtonClicked(user)" class="details-button">Details</button>
-                <button (click)="editButtonClicked(user)" class="edit-button">Modifier</button>
-                <button (click)="deleteButtonClicked(user)" class="delete-button">Supprimer</button>
+                <button mat-raised-button color="basic" (click)="detailsButtonClicked(user)" class="details-button">Details</button>
+                <button mat-raised-button color="primary"(click)="editButtonClicked(user)" class="edit-button">Modifier</button>
+                <button mat-raised-button color="warn" (click)="deleteButtonClicked(user)" class="delete-button">Supprimer</button>
             </td>
         </ng-container>
     </table>

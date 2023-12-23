@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -6,6 +6,7 @@ import { UserService } from 'src/app/shared/services/user.service';
 import { User, UserFilters } from 'src/app/shared/models/user.model';
 import { Router } from '@angular/router';
 import { MatSort } from '@angular/material/sort';
+import { AppContextService } from 'src/app/shared/services/app-context.service';
 
 @Component({
   selector: 'app-user-list-table',
@@ -38,7 +39,8 @@ export class UserListTableComponent implements AfterViewInit, OnDestroy {
   constructor(
     private readonly userService: UserService,
     private readonly router: Router,
-    private readonly changeDetectorRef: ChangeDetectorRef) {}
+    private readonly changeDetectorRef: ChangeDetectorRef) {
+  }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
@@ -77,11 +79,11 @@ export class UserListTableComponent implements AfterViewInit, OnDestroy {
 
   
   public detailsButtonClicked(event: User) {
-    this.router.navigate(['/user/'+event.userId, event]);
+    this.router.navigate(['user/'+event.userId, event]);
   }
 
   public editButtonClicked(event: User) {
-    this.router.navigate(['/update/'+event.userId, event]);
+    this.router.navigate(['update/'+event.userId, event]);
   }
 
   public deleteButtonClicked(event: User) {

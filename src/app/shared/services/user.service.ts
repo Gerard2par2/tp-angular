@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, map, of } from 'rxjs';
 import { User, UserDto, UserFilters } from '../models/user.model';
 import { environment } from 'src/environment/environment';
 import { HttpClient } from '@angular/common/http';
 import { UserMappingService } from './user-mapping.service';
+import { AppContextService } from './app-context.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,8 @@ export class UserService {
 
   constructor(
     private readonly http: HttpClient,
-    private readonly userMapper: UserMappingService) {
+    private readonly userMapper: UserMappingService,
+    private readonly appContextService: AppContextService) {
     this.users = new BehaviorSubject<User[]>([]);
     this.apiURL = environment.apiUrl;
 
@@ -32,7 +34,13 @@ export class UserService {
    * @returns the list of users from the API
    */
   private fetchUsers(): Observable<User[]> {
-    return this.http.get<UserDto[]>(this.apiURL).pipe(map((userDto: UserDto[]) => this.userMapper.fromUserDtoListToUserList(userDto)));
+    this.appContextService.isLoading.next(true);
+    return this.http.get<UserDto[]>(this.apiURL).pipe(
+      map((userDto: UserDto[]) => this.userMapper.fromUserDtoListToUserList(userDto)),
+      map((users: User[]) => {
+        this.appContextService.isLoading.next(false)
+        return users;
+    }));
   }
 
   /**
@@ -41,7 +49,12 @@ export class UserService {
    * @returns the posted user
    */
   private postUser(user: User): Observable<User> {
-    return this.http.post<UserDto>(this.apiURL, this.userMapper.fromUserToUserDto(user)).pipe(map((userDto: UserDto) => this.userMapper.fromUserDtoToUser(userDto)));
+    this.appContextService.isLoading.next(true);
+    return this.http.post<UserDto>(this.apiURL, this.userMapper.fromUserToUserDto(user)).pipe(map((userDto: UserDto) => this.userMapper.fromUserDtoToUser(userDto)),
+    map((user: User) => {
+      this.appContextService.isLoading.next(false)
+      return user;
+    }));
   }
 
   /**
@@ -50,7 +63,12 @@ export class UserService {
    * @returns the put user
    */
   private putUser(user: User): Observable<User> {
-    return this.http.put<UserDto>(`${this.apiURL}/${user.userId}`, this.userMapper.fromUserToUserDto(user)).pipe(map((userDto: UserDto) => this.userMapper.fromUserDtoToUser(userDto)));
+    this.appContextService.isLoading.next(true);
+    return this.http.put<UserDto>(`${this.apiURL}/${user.userId}`, this.userMapper.fromUserToUserDto(user)).pipe(map((userDto: UserDto) => this.userMapper.fromUserDtoToUser(userDto)),
+    map((user: User) => {
+      this.appContextService.isLoading.next(false)
+      return user;
+    }));
   }
 
   /**
@@ -59,7 +77,12 @@ export class UserService {
    * @returns the deleted user
    */
   private deleteUser(userId: string): Observable<User> {
-    return this.http.delete<UserDto>(`${this.apiURL}/${userId}`).pipe(map((userDto: UserDto) => this.userMapper.fromUserDtoToUser(userDto)));
+    this.appContextService.isLoading.next(true);
+    return this.http.delete<UserDto>(`${this.apiURL}/${userId}`).pipe(map((userDto: UserDto) => this.userMapper.fromUserDtoToUser(userDto)),
+    map((user: User) => {
+      this.appContextService.isLoading.next(false)
+      return user;
+    }));
   }
 
   /**

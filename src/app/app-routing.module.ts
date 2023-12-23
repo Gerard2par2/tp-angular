@@ -8,9 +8,9 @@ import { UserFormComponent } from './user/user-form/user-form.component';
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'users' },
   { path: 'users', component: UsersPageComponent },
+  { path: 'add', component: UserFormComponent, data: { mode: UserFormModes.ADD} },
   { path: 'user/:id', component: UserDetailsComponent },
   { path: 'update/:id', component: UserFormComponent, data: { mode: UserFormModes.EDIT} },
-  { path: 'add', component: UserFormComponent, data: { mode: UserFormModes.ADD} },
 ];
 
 @NgModule({

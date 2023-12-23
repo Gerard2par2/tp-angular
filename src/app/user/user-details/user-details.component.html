@@ -1,3 +1,21 @@
-<button class="home-btn" (click)="navigateToHome()">
-    <fa-icon [icon]="homeIcon"></fa-icon>
-</button>
+<div class="user-details">
+    <div class="user-details-content">
+        <div>
+            <b>Nom: </b><p class="user-details__title">{{ user.firstName }} {{ user.lastName }} </p>
+        </div>
+        <div>
+            <b>Email: </b><p class="user-details__title">{{ user.email }} </p>
+        </div>
+        <div>
+            <b>Emploi: </b><p class="user-details__title">{{ user.occupation }} </p>
+        </div>
+        <div>
+            <b>Bio: </b><p class="user-details__title">{{ user.bio }} </p>
+        </div>
+        <div class="user-details-actions">
+            <button mat-raised-button color="primary"(click)="editButtonClicked(user)" class="edit-button">Modifier</button>
+            <button mat-raised-button color="warn" (click)="deleteButtonClicked(user)" class="delete-button">Supprimer</button>
+        </div>
+    </div>
+    
+</div>

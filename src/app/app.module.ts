@@ -19,6 +19,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { HttpClientModule } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { HeaderComponent } from './header/header.component';
+import { LoaderComponent } from './loader/loader.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     FormatDatePipe,
     UserListFilterLabelPipe,
     UserFormComponent,
+    HeaderComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -44,6 +49,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MatFormFieldModule,
     HttpClientModule,
     FontAwesomeModule,    
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

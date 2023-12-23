@@ -15,7 +15,6 @@ import { faHouseUser } from '@fortawesome/free-solid-svg-icons';
 export class UserFormComponent {
   private readonly formMode: UserFormModes;
   public buttonText: string = '';
-  public pageTitle: string = '';
 
   public userFormGroup;
   public homeIcon = faHouseUser;
@@ -29,7 +28,6 @@ export class UserFormComponent {
     console.log(this.formMode);
     this.userFormGroup = this.buildFormGroup();
     this.buttonText = this.formMode === UserFormModes.EDIT ? "Modifier" : "Ajouter";
-    this.pageTitle = this.formMode === UserFormModes.EDIT ? "Modifier un utilisateur" : "Ajouter un utilisateur";
   }
 
   private buildFormGroup(): FormGroup {
