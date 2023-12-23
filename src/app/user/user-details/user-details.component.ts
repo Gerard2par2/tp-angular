@@ -25,7 +25,7 @@ export class UserDetailsComponent {
   }
 
   public navigateToHome(): void {
-    this.router.navigate(['users']);
+    this.router.navigate(['']);
   }
 
   public editButtonClicked(event: User) {

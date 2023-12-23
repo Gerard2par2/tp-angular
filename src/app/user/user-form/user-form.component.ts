@@ -63,10 +63,10 @@ export class UserFormComponent {
       default:
           throw new Error('Invalid mode passed as data during routing to UserFormComponent');
     }
-    this.router.navigate(['users']);
+    this.router.navigate(['']);
   }
 
   public navigateToHome(): void {
-    this.router.navigate(['users']);
+    this.router.navigate(['']);
   }
 }
