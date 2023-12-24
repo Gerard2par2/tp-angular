@@ -7,11 +7,9 @@ pages:
 
   stage: deploy
   script:
-  - npm install -g @angular/cli@6.2.1
+  - npm install -g @angular/cli@latest
   - npm install
-  - ng build
-  - mkdir -p public
-  - mv dist/tp-note/* public/
+  - npm run build tp-note
   artifacts:
     paths:
     - public
