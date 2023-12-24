@@ -6,8 +6,8 @@ before_script:
   - npm install
 pages:
   script:
-    - ng build --aot --build-optimizer --common-chunk --vendor-chunk
-      --optimization --progress --configuration=production --output-path=public
+    - ng build tp-note
+    - ng serve
   artifacts:
     paths:
       # The folder that contains the files to be exposed at the Page URL
