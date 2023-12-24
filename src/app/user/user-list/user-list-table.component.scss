@@ -14,7 +14,7 @@
             color: $accent2;
             position: sticky;
             top: 0;
-
+            z-index: 99;
         }
         .content-row:nth-child(odd) {
             background-color: $light-gray;
