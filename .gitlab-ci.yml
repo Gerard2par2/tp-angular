@@ -1,18 +1,14 @@
 image: node:lts
-
 pages:
   cache:
     paths:
-    - node_modules/
-
-  stage: deploy
+      - node_modules/
   script:
-  - npm install -g @angular/cli@latest
-  - npm install
-  - npm run build tp-note
+    - npm install -g @angular/cli@latest
+    - npm install
+    - ng build --prod --base-href /app/
+    - mkdir -p public
+    - mv dist/app/* public/
   artifacts:
     paths:
-    - public
-  only:
-  - master
-  - pages
+      - public
