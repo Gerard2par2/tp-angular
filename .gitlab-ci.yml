@@ -1,14 +1,17 @@
+# Use Node.js LTS as the Docker image for building the app
 image: node:lts
+
+# Install dependencies and Angular CLI before running the build script
+before_script:
+  - npm ci
+  - npm install -g @angular/cli@latest
+
+# Define the build script for the pages
 pages:
-  cache:
-    paths:
-      - node_modules/
   script:
-    - npm install -g @angular/cli@latest
-    - npm install
-    - ng build --prod --base-href /app/
-    - mkdir -p public
-    - mv dist/app/* public/
+    - ng build --aot --build-optimizer --common-chunk --vendor-chunk --optimization --progress --configuration=production --output-path=public
   artifacts:
     paths:
-      - public
+      - public  # Expose the 'public' folder at the Page URL
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH  # Deploy only on pushes to the default branch
